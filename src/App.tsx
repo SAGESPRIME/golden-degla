@@ -13,6 +13,8 @@ import { CartPage } from "./pages/CartPage";
 import { Checkout } from "./pages/Checkout";
 import { Success } from "./pages/Success";
 import { Contact } from "./pages/Contact";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { MyOrders } from "./pages/MyOrders";
 import { useState } from "react";
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
@@ -27,7 +29,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
               className="text-3xl font-bold mb-3"
               style={{ color: "var(--text)" }}
             >
-              Golden Degla
+              Golden Dhlia
             </h1>
             <p
               className="text-base mb-8"
@@ -38,6 +40,24 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
           </div>
           <SignInForm />
         </div>
+      </Unauthenticated>
+    </>
+  );
+}
+
+function RequireAdmin({ children }: { children: React.ReactNode }) {
+  const loggedInUser = useQuery(api.auth.loggedInUser);
+  return (
+    <>
+      <Authenticated>
+        {loggedInUser === undefined ? null : loggedInUser?.email?.includes("admin") ? (
+          <>{children}</>
+        ) : (
+          <Navigate to="/" replace />
+        )}
+      </Authenticated>
+      <Unauthenticated>
+        <Navigate to="/" replace />
       </Unauthenticated>
     </>
   );
@@ -85,13 +105,22 @@ export default function App() {
             }
           />
           <Route
-            path="/admin"
+            path="/mes-commandes"
             element={
               <RequireAuth>
-                <AdminDashboard />
+                <MyOrders />
               </RequireAuth>
             }
           />
+          <Route
+            path="/admin"
+            element={
+              <RequireAdmin>
+                <AdminDashboard />
+              </RequireAdmin>
+            }
+          />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
@@ -113,85 +142,3 @@ export default function App() {
   );
 }
 
-function AdminDashboard() {
-  const orders = useQuery(api.orders.adminList);
-  const products = useQuery(api.products.list, {});
-
-  if (!orders || !products) {
-    return (
-      <div className="text-center py-20" style={{ color: "var(--text-muted)" }}>
-        Chargement...
-      </div>
-    );
-  }
-
-  return (
-    <div className="page-container py-12 space-y-8">
-      <h2 className="text-3xl font-bold" style={{ color: "var(--text)" }}>
-        Dashboard Admin
-      </h2>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4" style={{ color: "var(--text)" }}>
-            Commandes Recentes
-          </h3>
-          <div className="space-y-4">
-            {orders.slice(0, 5).map((order) => (
-              <div
-                key={order._id}
-                className="border-b pb-4"
-                style={{ borderColor: "var(--border)" }}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="font-medium" style={{ color: "var(--text)" }}>
-                      {order.customer?.email}
-                    </p>
-                    <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                      {order.items.length} article(s) - {order.total.toFixed(2)}€
-                    </p>
-                  </div>
-                  <span
-                    className={`badge ${
-                      order.status === "paid"
-                        ? "badge-accent"
-                        : order.status === "pending"
-                          ? "badge-primary"
-                          : "bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="card">
-          <h3 className="text-xl font-semibold mb-4" style={{ color: "var(--text)" }}>
-            Produits
-          </h3>
-          <div className="space-y-4">
-            {products.slice(0, 5).map((product) => (
-              <div key={product._id} className="flex justify-between items-center">
-                <div>
-                  <p className="font-medium" style={{ color: "var(--text)" }}>
-                    {product.name}
-                  </p>
-                  <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                    Stock: {product.stock}
-                  </p>
-                </div>
-                <p className="font-semibold" style={{ color: "var(--primary)" }}>
-                  {product.price.toFixed(2)}€
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}

@@ -1,10 +1,11 @@
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { CheckoutForm } from "../components/CheckoutForm";
 
 export function Checkout() {
+  const navigate = useNavigate();
   const cartItems = useQuery(api.cart.get) || [];
 
   const total = cartItems.reduce(
@@ -63,8 +64,8 @@ export function Checkout() {
         >
           <CheckoutForm
             total={total}
-            onClose={() => window.history.back()}
-            onBack={() => window.history.back()}
+            onClose={() => navigate(-1)}
+            onBack={() => navigate(-1)}
           />
         </div>
 

@@ -1,5 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { getAuthUserId } from "@convex-dev/auth/server";
 
 export const list = query({
   args: {},
@@ -11,6 +12,11 @@ export const list = query({
 export const seedData = mutation({
   args: {},
   handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Unauthorized");
+    const user = await ctx.db.get(userId);
+    if (!user?.email?.includes("admin")) throw new Error("Admin access required");
+
     const existing = await ctx.db.query("categories").collect();
     if (existing.length > 0) return "Already seeded";
 

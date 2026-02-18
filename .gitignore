@@ -25,3 +25,10 @@ dist-ssr
 
 # Ignored for the template, you probably want to remove it:
 package-lock.json
+.vercel
+
+# Original images (copies are in public/galeries/)
+galeries/
+
+# Local IDE settings
+.claude/settings.local.json

@@ -20,7 +20,7 @@ export function Footer() {
               <span className="text-2xl select-none">🍯</span>
               <span style={{ color: "#FFFFFF" }}>
                 Golden{" "}
-                <span style={{ color: "var(--primary)" }}>Degla</span>
+                <span style={{ color: "var(--primary)" }}>Dhlia</span>
               </span>
             </Link>
             <p className="text-sm leading-relaxed mb-6" style={{ color: "#9C8E84" }}>
@@ -154,7 +154,7 @@ export function Footer() {
       >
         <div className="page-container py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs" style={{ color: "#6B5B4F" }}>
-            © {currentYear} Golden Degla. Tous droits réservés.
+            © {currentYear} Golden Dhlia. Tous droits réservés.
           </p>
           <div className="flex items-center gap-6">
             <a

@@ -4,7 +4,7 @@ import { api } from "../../convex/_generated/api";
 import { SignOutButton } from "../SignOutButton";
 import { SignInForm } from "../SignInForm";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Settings, Menu, X, User } from "lucide-react";
+import { ShoppingCart, Settings, Menu, X, User, Package } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface HeaderProps {
@@ -14,7 +14,7 @@ interface HeaderProps {
 
 export function Header({ onCartClick, isAdmin }: HeaderProps) {
   const { isAuthenticated } = useConvexAuth();
-  const cartItems = useQuery(api.cart.get) || [];
+  const cartItems = useQuery(api.cart.get, !isAuthenticated ? "skip" : {}) || [];
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -58,7 +58,7 @@ export function Header({ onCartClick, isAdmin }: HeaderProps) {
           >
             <span className="text-2xl">🍯</span>
             <span>
-              Golden <span style={{ color: "var(--primary)" }}>Degla</span>
+              Golden <span style={{ color: "var(--primary)" }}>Dhlia</span>
             </span>
           </Link>
 
@@ -77,6 +77,19 @@ export function Header({ onCartClick, isAdmin }: HeaderProps) {
                 {link.label}
               </Link>
             ))}
+            {isAuthenticated && !isAdmin && (
+              <Link
+                to="/mes-commandes"
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                  isActive("/mes-commandes")
+                    ? "bg-[var(--primary-light)] text-[var(--primary)]"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text)] hover:bg-[var(--primary-light)]"
+                }`}
+              >
+                <Package className="w-3.5 h-3.5" />
+                Mes commandes
+              </Link>
+            )}
             {isAdmin && (
               <Link
                 to="/admin"
@@ -156,6 +169,20 @@ export function Header({ onCartClick, isAdmin }: HeaderProps) {
                 {link.label}
               </Link>
             ))}
+            {isAuthenticated && !isAdmin && (
+              <Link
+                to="/mes-commandes"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  isActive("/mes-commandes")
+                    ? "bg-[var(--primary-light)] text-[var(--primary)]"
+                    : "text-[var(--text-secondary)] hover:bg-[var(--primary-light)]"
+                }`}
+              >
+                <Package className="w-4 h-4" />
+                Mes commandes
+              </Link>
+            )}
             {isAdmin && (
               <Link
                 to="/admin"

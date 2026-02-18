@@ -100,11 +100,33 @@ export const update = mutation({
   },
 });
 
-export const generateUploadUrl = mutation({
+export const adminListAll = query({
+  args: {},
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
     if (!userId) throw new Error("Unauthorized");
 
+    const user = await ctx.db.get(userId);
+    if (!user?.email?.includes("admin")) throw new Error("Admin access required");
+
+    const products = await ctx.db.query("products").order("desc").collect();
+
+    return Promise.all(
+      products.map(async (product) => ({
+        ...product,
+        imageUrl: product.imageId ? await ctx.storage.getUrl(product.imageId) : null,
+        category: await ctx.db.get(product.categoryId),
+      }))
+    );
+  },
+});
+
+export const generateUploadUrl = mutation({
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Unauthorized");
+    const user = await ctx.db.get(userId);
+    if (!user?.email?.includes("admin")) throw new Error("Admin access required");
     return await ctx.storage.generateUploadUrl();
   },
 });

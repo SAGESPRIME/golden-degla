@@ -417,8 +417,130 @@ export function Home() {
         </div>
       </section>
 
-      {/* ─── Testimonials ─── */}
+      {/* ─── Galerie Rucher ─── */}
       <section className="section-padding" style={{ backgroundColor: "var(--bg)" }}>
+        <div className="page-container">
+          <div className="text-center mb-14">
+            <span className="section-label">
+              <span className="w-8 h-px inline-block" style={{ backgroundColor: "var(--primary)" }} />
+              Sur le terrain
+              <span className="w-8 h-px inline-block" style={{ backgroundColor: "var(--primary)" }} />
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: "var(--text)" }}>
+              Au cœur de nos <span className="text-gradient">ruches</span>
+            </h2>
+            <p className="max-w-xl mx-auto" style={{ color: "var(--text-secondary)" }}>
+              Découvrez la vie de nos ruchers, les gestes de nos apiculteurs et la beauté
+              de la récolte de nos miels biologiques.
+            </p>
+          </div>
+
+          {/* Mosaic grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-[200px] md:auto-rows-[220px]">
+            {/* Large featured image — spans 2 cols & 2 rows */}
+            <div className="col-span-2 row-span-2 group relative overflow-hidden rounded-3xl shadow-warm-lg">
+              <img
+                src="/galeries/image1.jpeg"
+                alt="Nos ruches au cœur de la nature"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                style={{ background: "linear-gradient(to top, rgba(184,134,11,0.4) 0%, transparent 60%)" }}
+              />
+              <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                <span
+                  className="text-sm font-semibold text-white px-3 py-1.5 rounded-full"
+                  style={{ backgroundColor: "rgba(184,134,11,0.85)", backdropFilter: "blur(4px)" }}
+                >
+                  Nos ruches
+                </span>
+              </div>
+            </div>
+
+            {/* Image 2 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-warm">
+              <img
+                src="/galeries/image2.jpeg"
+                alt="Récolte artisanale du miel"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(to top, rgba(184,134,11,0.35) 0%, transparent 55%)" }}
+              />
+            </div>
+
+            {/* Image 3 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-warm">
+              <img
+                src="/galeries/image3.jpeg"
+                alt="Apiculteur au travail"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(to top, rgba(74,124,89,0.35) 0%, transparent 55%)" }}
+              />
+            </div>
+
+            {/* Image 4 — wide, spans 2 cols */}
+            <div className="col-span-2 group relative overflow-hidden rounded-2xl shadow-warm">
+              <img
+                src="/galeries/image4.jpeg"
+                alt="Cadres de miel dorés"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(to top, rgba(184,134,11,0.35) 0%, transparent 55%)" }}
+              />
+            </div>
+
+            {/* Image 5 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-warm">
+              <img
+                src="/galeries/image5.jpeg"
+                alt="Fleurs butinées par les abeilles"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(to top, rgba(74,124,89,0.35) 0%, transparent 55%)" }}
+              />
+            </div>
+
+            {/* Image 6 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-warm">
+              <img
+                src="/galeries/image6.jpeg"
+                alt="Mise en pot artisanale"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(to top, rgba(184,134,11,0.35) 0%, transparent 55%)" }}
+              />
+            </div>
+
+            {/* Image 7 */}
+            <div className="group relative overflow-hidden rounded-2xl shadow-warm">
+              <img
+                src="/galeries/image7.jpeg"
+                alt="Miel coulant doré"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+              />
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(to top, rgba(184,134,11,0.35) 0%, transparent 55%)" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Testimonials ─── */}
+      <section className="section-padding" style={{ backgroundColor: "var(--surface)" }}>
         <div className="page-container">
           <div className="text-center mb-14">
             <span className="section-label">

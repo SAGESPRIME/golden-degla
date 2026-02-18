@@ -37,13 +37,13 @@ export const createCheckoutSession = action({
     }));
 
     const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-    
+
     const session: any = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/cart`,
+      success_url: `${process.env.HOSTING_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.HOSTING_URL}/cart`,
       metadata: {
         userId,
         shippingAddress: JSON.stringify(args.shippingAddress),
@@ -77,14 +77,15 @@ export const handleWebhook = action({
       const session = event.data.object;
       const { userId, shippingAddress } = session.metadata;
 
-      // Create order
-      const orderId = await ctx.runMutation(api.orders.create, {
+      // Create order via internalMutation (no user session needed server-side)
+      const orderId = await ctx.runMutation(internal.orders.createFromWebhook, {
+        userId: userId as any,
         stripeSessionId: session.id,
         shippingAddress: JSON.parse(shippingAddress),
       });
 
-      // Update order status to paid
-      await ctx.runMutation(api.orders.updateStatus, {
+      // Update order status to paid via internalMutation
+      await ctx.runMutation(internal.orders.updateStatusInternal, {
         orderId,
         status: "paid",
         stripePaymentIntentId: session.payment_intent,
